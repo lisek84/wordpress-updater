@@ -1,73 +1,87 @@
 
-# WordPress Auto-Update Script
+# WordPress Auto Update Script
 
-This script automatically updates all WordPress installations in a specified directory. It can update the core, plugins, themes, and translations of each WordPress site. It uses `wp-cli` for managing WordPress updates and `jq` for parsing JSON data.
+This script automatically updates WordPress installations, plugins, themes, and language packs on your server. It supports dry-run mode, allows you to check for updates and provides a notification to the site owner once updates are completed.
 
 ## Features
 
-- Automatically checks for updates to WordPress core, plugins, themes, and translations.
-- Allows dry-run mode to preview the actions without making any changes.
-- Automatically installs required dependencies (`wp-cli`, `jq`) if they are missing.
-- Can be used with or without root privileges for `wp-cli` commands.
+- Check and update WordPress core, plugins, themes, and languages
+- Send a notification email to the site owner once updates are applied
+- Test email delivery using `--notification-test`
+- Support for dry-run mode to simulate updates
 
-## Requirements
+## Prerequisites
 
-- **wp-cli**: A command-line interface for WordPress.
-- **jq**: A lightweight and flexible command-line JSON processor.
-- Both of these tools will be installed automatically if they are not found on the system.
+- `wp-cli` must be installed on the server.
+- `jq` is required for JSON parsing of `wp-cli` outputs.
+- Linux mail system configured to send emails.
 
 ## Installation
 
-1. Clone or download the script to your local machine.
-2. Ensure the script has executable permissions:
+1. Download the script:
+    ```bash
+    wget https://example.com/wordpress-auto-update.sh
+    ```
 
-   ```bash
-   chmod +x wordpress-auto-update.sh
-   ```
+2. Make the script executable:
+    ```bash
+    chmod +x wordpress-auto-update.sh
+    ```
 
-3. Make sure the `BASE_DIR` in the script points to the correct directory where your WordPress installations are located. The default is `/var/www`.
+3. Run the script.
 
 ## Usage
 
-```bash
-./wordpress-auto-update.sh [OPTIONS]
-```
-
-### Options
-
-- `--dry-run`  
-  Displays the actions that would be taken without executing them. This is useful for previewing the changes that will be made.
-  
-- `--help`  
-  Displays the help message.
-
-### Example Usage
-
-#### Dry Run (Preview updates without applying them)
-
+### Run the script without updating (dry-run):
 ```bash
 ./wordpress-auto-update.sh --dry-run
 ```
 
-#### Full Run (Apply updates)
-
+### Run the script to apply updates:
 ```bash
 ./wordpress-auto-update.sh
 ```
 
-## How It Works
+### Test Email Delivery:
+To test if your mail system is working correctly, run the script with `--notification-test`:
+```bash
+./wordpress-auto-update.sh --notification-test email@example.com
+```
 
-1. The script starts by checking if the necessary dependencies (`wp-cli` and `jq`) are installed. If not, it installs them automatically.
-2. It then iterates through all directories in the specified `BASE_DIR` and checks if each directory contains a WordPress installation.
-3. If a WordPress installation is found, it checks for available updates for the core, plugins, themes, and translations.
-4. If updates are available, the script updates WordPress and its components, unless the `--dry-run` option is specified.
+### Options:
 
-## Notes
+- `--dry-run`: Display actions without executing them.
+- `--help`: Display the help message.
+- `--notification-test <email>`: Send a test email to `<email>` to verify mail delivery.
 
-- The script assumes the WordPress installations are in the `BASE_DIR` directory. You can modify the `BASE_DIR` variable in the script to match your setup.
-- You can enable or disable root privileges for `wp-cli` commands by adjusting the `ALLOW_ROOT_ENABLED` variable. Setting it to `1` enables root privileges; setting it to `0` disables them.
-- The script will display logs indicating which updates were performed, or it will show what would have been updated in dry-run mode.
+## Script Explanation
+
+### What it does:
+
+- It checks for WordPress core, plugin, theme, and language updates.
+- It sends an email notification to the site owner (if `owner_notification.txt` exists and contains a valid email).
+- The notification includes details that updates have been applied, or issues need to be resolved.
+- It allows for testing email functionality by using the `--notification-test` option.
+
+### Email Notification:
+
+- Subject: "Aktualizacja WordPressa na Twojej stronie"
+- Body (Polish without special characters): 
+
+  ```
+  Witaj,
+
+  Na Twojej stronie WordPress zostaly przeprowadzone aktualizacje. Jesli wszystko dziala poprawnie, prosimy o ignorowanie tej wiadomosci. W przypadku problemow prosimy o kontakt z administratorem strony.
+
+  Pozdrawiamy,
+  Zespol
+  ```
+
+### Notes:
+
+- The script assumes WordPress installations are located in the `/var/www` directory.
+- If the file `owner_notification.txt` is empty or does not exist, no notification is sent.
 
 ## License
 
-This script is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+MIT License
