@@ -52,11 +52,11 @@ send_notification() {
     local email=$2
 
     if [ -n "$email" ]; then
-        SUBJECT="Aktualizacja WordPressa na Twojej stronie"
-        BODY="Witaj, \n\nNa Twojej stronie WordPress zostaly przeprowadzone aktualizacje. Jesli wszystko dziala poprawnie, prosimy o ignorowanie tej wiadomosci. W przypadku problemow prosimy o kontakt z administratorem strony.\n\nPozdrawiamy,\nZespół"
+        SUBJECT="Wordpress has been updated on your site"
+        BODY="Hello, \n\nUpdates has been made on your wordpress site. Please check is site ok. Or contact your webmaster to solve issues.\n\nRegards,\nHosting Team"
 
         echo -e "$BODY" | mail -s "$SUBJECT" "$email"
-        echo "Powiadomienie wysłane do: $email"
+        echo "Notification sent to: $email"
     fi
 }
 
@@ -65,11 +65,11 @@ send_test_notification() {
     local email=$1
 
     if [ -n "$email" ]; then
-        SUBJECT="Test Powiadomienia WordPress"
-        BODY="Witaj,\n\nTo jest testowa wiadomość wysłana z Twojego skryptu WordPress. Jeśli otrzymujesz tę wiadomość, oznacza to, że konfiguracja poczty działa poprawnie.\n\nPozdrawiamy,\nZespół"
+        SUBJECT="Wordpress Notification test"
+        BODY="Hi,\n\nThis is just a dummy e-mail delivery test. If you got that - that is great.\n\nCheers,\nHosting Team"
 
         echo -e "$BODY" | mail -s "$SUBJECT" "$email"
-        echo "Testowe powiadomienie wysłane do: $email"
+        echo "Notification sent to: $email"
     fi
 }
 
