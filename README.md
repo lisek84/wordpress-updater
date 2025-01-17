@@ -63,20 +63,6 @@ To test if your mail system is working correctly, run the script with `--notific
 - The notification includes details that updates have been applied, or issues need to be resolved.
 - It allows for testing email functionality by using the `--notification-test` option.
 
-### Email Notification:
-
-- Subject: "Aktualizacja WordPressa na Twojej stronie"
-- Body (Polish without special characters): 
-
-  ```
-  Witaj,
-
-  Na Twojej stronie WordPress zostaly przeprowadzone aktualizacje. Jesli wszystko dziala poprawnie, prosimy o ignorowanie tej wiadomosci. W przypadku problemow prosimy o kontakt z administratorem strony.
-
-  Pozdrawiamy,
-  Zespol
-  ```
-
 ### Notes:
 
 - The script assumes WordPress installations are located in the `/var/www` directory.
